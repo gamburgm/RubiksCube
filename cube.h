@@ -10,12 +10,12 @@ using namespace std;
 
 class Cube {
 	private:
-		CubeFace* redFace;
-		CubeFace* yellowFace;
-		CubeFace* blueFace;	
 		CubeFace* whiteFace;
+		CubeFace* redFace;
 		CubeFace* greenFace;
 		CubeFace* orangeFace;
+		CubeFace* blueFace;
+		CubeFace* yellowFace;
 	public:
 		Cube();
 		~Cube();
@@ -24,7 +24,6 @@ class Cube {
 		void rotateFaceClockWise(string faceName);
 		void rotateFaceCounterClockWise(string faceName);
 		//void randomizeBoard();
-		//void rotateFace(CubeFace* face);	
 };
 
 #endif
