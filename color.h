@@ -4,6 +4,7 @@
 #include <iostream>
 using namespace std;
 
-enum Color { red, yellow, blue, orange, green, white };
+//the colors of a Rubik's Cube
+enum Color { white, red, green, orange, blue, yellow }; 
 
 #endif

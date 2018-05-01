@@ -7,10 +7,12 @@
 #include "color.h"
 using namespace std;
 
+//a single face of a 3x3 Rubik's Cube
 class CubeFace {
     private:
         Color faceColor;
         vector< vector<Color> > face;
+		//references to the other surrounding cubefaces
 		CubeFace* bottomFace;
 		CubeFace* topFace;
 		CubeFace* rightFace;
