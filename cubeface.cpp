@@ -91,6 +91,7 @@ void CubeFace::printCubeFace() {
 		}
 		cout << endl;
 	}
+	cout << endl;
 }
 
 //re-orient the face clockwise
@@ -123,48 +124,105 @@ void CubeFace::turnCounterClockWise() {
 	face = turnedFace;
 }	
 
-//swap the colors at the given coordinates of this CubeFace's neighbors clockwise
-void CubeFace::moveCubiesClockWise(int btmRow, int btmCol, int topRow, int topCol, int rightRow, int rightCol, int leftRow, int leftCol) {
-	Color temp = topFace->getFace(topRow, topCol);
+//extract the colors from the topmost row
+vector<Color> CubeFace::getTop() {
+	vector<Color> temp;
 
-	topFace->setFace(topRow, topCol, rightFace->getFace(rightRow, rightCol));
-	rightFace->setFace(rightRow, rightCol, bottomFace->getFace(btmRow, btmCol));
-	bottomFace->setFace(btmRow, btmCol, leftFace->getFace(leftRow, leftCol));
-	leftFace->setFace(leftRow, leftCol, temp);	
+	for (int i = 0; i < 3; i++) {
+		temp.push_back(face[0][i]);
+	}
+
+	return temp;
 }
 
-//swap the colors at the given coordinates of this CubeFace's neighbors counterclockwise
-void CubeFace::moveCubiesCounterClockWise(int btmRow, int btmCol, int topRow, int topCol, int rightRow, int rightCol, int leftRow, int leftCol) {
-	Color temp = topFace->getFace(topRow, topCol);
+//extract the colors of the bottommost row
+vector<Color> CubeFace::getBottom() {
+	vector<Color> temp;
 
-	topFace->setFace(topRow, topCol, leftFace->getFace(leftRow, leftCol));
-	leftFace->setFace(leftRow, leftCol, bottomFace->getFace(btmRow, btmCol));
-	bottomFace->setFace(btmRow, btmCol, rightFace->getFace(rightRow, rightCol));
-	rightFace->setFace(rightRow, rightCol, temp);
+	for (int i = 0; i < 3; i++) {
+		temp.push_back(face[2][i]);
+	}
+
+	return temp;
 }
 
-//rotate this CubeFace clockwise by re-orienting its face clockwise and swapping the neighbor colors
-void CubeFace::rotateClockWise() {
-	turnClockWise();
-	moveCubiesClockWise(0, 2, 2, 0, 0, 0, 2, 2);
-	moveCubiesClockWise(0, 1, 2, 1, 1, 0, 1, 2);
-	moveCubiesClockWise(0, 0, 2, 2, 2, 0, 0, 2);
+//extract the colors of the leftmost row
+vector<Color> CubeFace::getLeft() {
+	vector<Color> temp;
+
+	for (int i = 0; i < 3; i++) {
+		temp.push_back(face[i][0]);
+	}
+
+	return temp;
 }
 
-//rotate this CubeFace counterclockwise by re-orienting its face counterclockwise and swapping the neighbor colors
-void CubeFace::rotateCounterClockWise() {
-	turnCounterClockWise();
-	moveCubiesCounterClockWise(0, 2, 2, 0, 0, 0, 2, 2);
-	moveCubiesCounterClockWise(0, 1, 2, 1, 1, 0, 1, 2);
-	moveCubiesCounterClockWise(0, 0, 2, 2, 2, 0, 0, 2);
-}
-
-
-
-
-
-
-
-
-
+//extract the colors of the rightmost column
+vector<Color> CubeFace::getRight() {
+	vector<Color> temp;
 	
+	for (int i = 0; i < 3; i++) {
+		temp.push_back(face[i][2]);
+	}
+
+	return temp;
+}
+
+void CubeFace::setLeft(vector<Color> colors) {
+	if (colors.size() == 3) {
+		for (int i = 0; i < 3; i++) {
+			face[i][0] = colors[i];
+		}
+	}
+}
+
+void CubeFace::setRight(vector<Color> colors) {
+	if (colors.size() == 3) {
+		for (int i = 0; i < 3; i++) {
+			face[i][2] = colors[i];
+		}
+	}
+}
+
+void CubeFace::setTop(vector<Color> colors) {
+	if (colors.size() == 3) {
+		for (int i = 0; i < 3; i++) {
+			face[0][i] = colors[i];
+		}
+	}
+}
+
+void CubeFace::setBottom(vector<Color> colors) {
+	if (colors.size() == 3) {
+		for (int i = 0; i < 3; i++) {
+			face[2][i] = colors[i];
+		}
+	}
+}
+
+void CubeFace::swapSidesClockWise(const Extract &e) {
+	vector<Color> temp = e.extractLeftFace(leftFace);
+	e.setLeftFace(leftFace, e.extractBottomFace(bottomFace));	
+	e.setBottomFace(bottomFace, e.extractRightFace(rightFace));
+	e.setRightFace(rightFace, e.extractTopFace(topFace));
+	e.setTopFace(topFace, temp);
+}
+
+void CubeFace::swapSidesCounterClockWise(const Extract &e) {
+	vector<Color> temp = e.extractLeftFace(leftFace);
+	e.setLeftFace(leftFace, e.extractTopFace(topFace));
+	e.setTopFace(topFace, e.extractRightFace(rightFace));
+	e.setRightFace(rightFace, e.extractBottomFace(bottomFace));
+	e.setBottomFace(bottomFace, temp);
+}
+
+void CubeFace::rotateClockWise(const Extract &e) {
+	turnClockWise();
+	swapSidesClockWise(e);	
+}
+
+void CubeFace::rotateCounterClockWise(const Extract &e) {
+	turnCounterClockWise();
+	swapSidesCounterClockWise(e);
+}
+

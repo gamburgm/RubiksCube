@@ -1,26 +1,18 @@
 #include <iostream>
+#include "extract.h"
 #include "cube.h"
+
 
 int main() {
 	Cube c;
 
-	c.rotateFaceCounterClockWise("white");
-	c.rotateFaceClockWise("green");
-	c.rotateFaceClockWise("red");
-	c.rotateFaceClockWise("orange");
-	c.rotateFaceCounterClockWise("yellow");
-	c.rotateFaceCounterClockWise("yellow");
-	c.rotateFaceClockWise("blue");
-	c.rotateFaceClockWise("yellow");
-	c.rotateFaceCounterClockWise("red");
-	c.rotateFaceCounterClockWise("white");
+	c.rotateFaceCounterClockWise("R");
+	c.rotateFaceCounterClockWise("D");
+	c.printFace("R");
+	c.printFace("F");
 
-	c.printFace("white");
-	c.printFace("red");
-	c.printFace("green");
-	c.printFace("orange");
-	c.printFace("blue");
-	c.printFace("yellow");	
+	c.rotateFaceCounterClockWise("L");
+	c.printFace("F");
 
 	return 0;
 }
