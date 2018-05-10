@@ -1,48 +1,48 @@
 #include <iostream>
 #include "cube.h"
 #include "color.h"
+#include "extract.h"
 
 //initialize the CubeFaces and assign each of them their respective neighbors
 Cube::Cube() {
-	whiteFace  = new CubeFace(white);
-	redFace    = new CubeFace(red);
-	greenFace  = new CubeFace(green);
-	orangeFace = new CubeFace(orange);
-	blueFace   = new CubeFace(blue);
-	yellowFace = new CubeFace(yellow);
+	bottomFace = new CubeFace(white);
+	frontFace  = new CubeFace(red);
+	rightFace  = new CubeFace(green);
+	backFace   = new CubeFace(orange);
+	leftFace   = new CubeFace(blue);
+	topFace    = new CubeFace(yellow);
 
-	whiteFace->addNeighbors(orangeFace, redFace, greenFace, blueFace);
-	redFace->addNeighbors(whiteFace, yellowFace, greenFace, blueFace);
-	greenFace->addNeighbors(whiteFace, yellowFace, orangeFace, redFace);
-	orangeFace->addNeighbors(whiteFace, yellowFace, blueFace, greenFace);
-	blueFace->addNeighbors(whiteFace, yellowFace, redFace, orangeFace);
-	yellowFace->addNeighbors(redFace, orangeFace, greenFace, blueFace);	
+	bottomFace->addNeighbors(backFace, frontFace, rightFace, leftFace);
+	frontFace->addNeighbors(bottomFace, topFace, rightFace, leftFace);
+	rightFace->addNeighbors(bottomFace, topFace, backFace, frontFace);
+	backFace->addNeighbors(bottomFace, topFace, leftFace, rightFace); //might have problem here, with orientation: changing faces
+	leftFace->addNeighbors(bottomFace, topFace, frontFace, backFace);
+	topFace->addNeighbors(frontFace, backFace, rightFace, leftFace);
 }
 
 //delete the memory of the cubefaces
 Cube::~Cube() {
-	delete whiteFace;
-	delete redFace;
-	delete greenFace;
-	delete orangeFace;
-	delete blueFace;
-	delete yellowFace;
+	delete bottomFace;
+	delete frontFace;
+	delete rightFace;
+	delete backFace;
+	delete leftFace; 
+	delete topFace;
 }	
-
 
 //given a string, return the respective number of the Color enumeration
 int Cube::chooseColor(string faceName) {
-	if (faceName.compare("white") == 0)
+	if (faceName.compare("bottom") == 0 || faceName.compare("D") == 0)
 		return 0;	
-	else if (faceName.compare("red") == 0)
+	else if (faceName.compare("front") == 0 || faceName.compare("F") == 0)
 		return 1;
-	else if (faceName.compare("green") == 0)
+	else if (faceName.compare("right") == 0 || faceName.compare("R") == 0)
 		return 2;
-	else if (faceName.compare("orange") == 0)
+	else if (faceName.compare("back") == 0 || faceName.compare("B") == 0)
 		return 3;
-	else if (faceName.compare("blue") == 0)
+	else if (faceName.compare("left") == 0 || faceName.compare("L") == 0)
 		return 4;
-	else if (faceName.compare("yellow") == 0)
+	else if (faceName.compare("top") == 0 || faceName.compare("U") == 0)
 		return 5;
 	else
 		return -1;
@@ -54,22 +54,22 @@ void Cube::printFace(string faceName) {
 
 	switch (num) {
 		case 0:
-			whiteFace->printCubeFace();
+			bottomFace->printCubeFace();
 			break;
 		case 1:
-			redFace->printCubeFace();
+			frontFace->printCubeFace();
 			break;
 		case 2: 
-			greenFace->printCubeFace();
+			rightFace->printCubeFace();
 			break;
 		case 3:
-			orangeFace->printCubeFace();
+			backFace->printCubeFace();
 			break;
 		case 4:
-			blueFace->printCubeFace();
+			leftFace->printCubeFace();
 			break;
 		case 5:
-			yellowFace->printCubeFace();
+			topFace->printCubeFace();
 			break;
 		default:
 			cout << "Error: invalid CubeFace" << endl;
@@ -83,22 +83,22 @@ void Cube::rotateFaceClockWise(string faceName) {
 
 	switch (num) {
 		case 0:
-			whiteFace->rotateClockWise();	
+			bottomFace->rotateClockWise(ExtractBottom());	
 			break;
 		case 1:
-			redFace->rotateClockWise();
+			frontFace->rotateClockWise(ExtractFront());
 			break;
 		case 2:
-			greenFace->rotateClockWise();
+			rightFace->rotateClockWise(ExtractRight());
 			break;
 		case 3:
-			orangeFace->rotateClockWise();
+			backFace->rotateClockWise(ExtractBack());
 			break;
 		case 4:
-			blueFace->rotateClockWise();
+			leftFace->rotateClockWise(ExtractLeft());
 			break;
 		case 5:
-			yellowFace->rotateClockWise();
+			topFace->rotateClockWise(ExtractTop());
 			break;
 		default:
 			cout << "Error: invalid CubeFace" << endl;
@@ -114,22 +114,22 @@ void Cube::rotateFaceCounterClockWise(string faceName) {
 
 	switch (num) {
 		case 0:
-			whiteFace->rotateCounterClockWise();	
+			bottomFace->rotateCounterClockWise(ExtractBottom());	
 			break;
 		case 1:
-			yellowFace->rotateCounterClockWise();
+			frontFace->rotateCounterClockWise(ExtractFront());
 			break;
 		case 2:
-			blueFace->rotateCounterClockWise();
+			rightFace->rotateCounterClockWise(ExtractRight());
 			break;
 		case 3:
-			orangeFace->rotateCounterClockWise();
+			backFace->rotateCounterClockWise(ExtractBack());
 			break;
 		case 4:
-			greenFace->rotateCounterClockWise();
+			leftFace->rotateCounterClockWise(ExtractLeft());
 			break;
 		case 5:
-			whiteFace->rotateCounterClockWise();
+			topFace->rotateCounterClockWise(ExtractTop());
 			break;
 		default:
 			cout << "Error: invalid CubeFace" << endl;

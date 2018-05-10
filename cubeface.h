@@ -5,6 +5,16 @@
 #include <string>
 #include <vector>
 #include "color.h"
+#include "extract.h"
+#include "extractLeft.h"
+#include "extractRight.h"
+#include "extractFront.h"
+#include "extractBack.h"
+#include "extractTop.h"
+#include "extractBottom.h"
+
+class Extract;
+
 using namespace std;
 
 //a single face of a 3x3 Rubik's Cube
@@ -12,7 +22,7 @@ class CubeFace {
     private:
         Color faceColor;
         vector< vector<Color> > face;
-		//references to the other surrounding cubefaces
+
 		CubeFace* bottomFace;
 		CubeFace* topFace;
 		CubeFace* rightFace;
@@ -20,8 +30,8 @@ class CubeFace {
 
         void turnClockWise();
         void turnCounterClockWise();
-		void moveCubiesClockWise(int btmRow, int btmCol, int topRow, int topCol, int rightRow, int rightCol, int leftRow, int leftCol);
-		void moveCubiesCounterClockWise(int btmRow, int btmCol, int topRow, int topCol, int rightRow, int rightCol, int leftRow, int leftCol);
+		void swapSidesClockWise(const Extract &e);
+		void swapSidesCounterClockWise(const Extract &e);
     public:
         CubeFace(Color clr);
         bool completedFace();
@@ -31,8 +41,16 @@ class CubeFace {
 		void setColor(Color clr);
 		void setFace(int row, int col, Color clr);
 		void printCubeFace();
-		void rotateClockWise();
-		void rotateCounterClockWise();
+		vector<Color> getTop();
+		vector<Color> getBottom();
+		vector<Color> getLeft();
+		vector<Color> getRight();
+		void setRight(vector<Color> colors);
+		void setLeft(vector<Color> colors);
+		void setTop(vector<Color> colors);
+		void setBottom(vector<Color> colors);
+		void rotateClockWise(const Extract &e);
+		void rotateCounterClockWise(const Extract &e);
 };
 
 #endif

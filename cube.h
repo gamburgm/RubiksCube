@@ -5,17 +5,25 @@
 #include <string>
 #include "color.h"
 #include "cubeface.h"
+#include "extract.h"
+#include "extractLeft.h"
+#include "extractRight.h"
+#include "extractFront.h"
+#include "extractBack.h"
+#include "extractTop.h"
+#include "extractBottom.h"
+
 using namespace std;
 
 
 class Cube {
 	private:
-		CubeFace* whiteFace;
-		CubeFace* redFace;
-		CubeFace* greenFace;
-		CubeFace* orangeFace;
-		CubeFace* blueFace;
-		CubeFace* yellowFace;
+		CubeFace* bottomFace;
+		CubeFace* frontFace;
+		CubeFace* rightFace;
+		CubeFace* backFace;
+		CubeFace* leftFace;
+		CubeFace* topFace;
 	public:
 		Cube();
 		~Cube();

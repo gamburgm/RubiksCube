@@ -1,14 +1,38 @@
-main: cubeMain.o cube.o cubeface.o
-	g++ cubeMain.o cube.o cubeface.o -o main
+ALLFILES = cubeMain.o cube.o cubeface.o extractLeft.o extractRight.o extractTop.o extractBottom.o extractFront.o extractBack.o
+CFLAGS = -g -Wall -c
+HFILES = cubeface.h color.h extract.h extractLeft.h extractRight.h extractBack.h extractFront.h extractTop.h extractBottom.h
 
-cubeMain.o: cubeMain.cpp cube.h cubeface.h color.h
-	g++ -g -Wall -c cubeMain.cpp
 
-cube.o: cube.cpp cube.h cubeface.h color.h
-	g++ -g -Wall -c cube.cpp
 
-cubeface.o: cubeface.cpp cubeface.h color.h
-	g++ -g -Wall -c cubeface.cpp
+main: ${ALLFILES}
+	g++ ${ALLFILES} -o main
+
+cubeMain.o: cubeMain.cpp cube.h ${HFILES} 
+	g++ ${CFLAGS} cubeMain.cpp
+
+cube.o: cube.cpp cube.h ${HFILES}
+	g++ ${CFLAGS}  cube.cpp
+
+cubeface.o: cubeface.cpp ${HFILES} 
+	g++ ${CFLAGS} cubeface.cpp
+
+extractLeft.o: extractLeft.cpp extractLeft.h ${HFILES}
+	g++ ${CFLAGS} extractLeft.cpp
+
+extractRight.o: extractRight.cpp extractRight.h ${HFILES}
+	g++ ${CFLAGS} extractRight.cpp
+
+extractTop.o: extractTop.cpp extractRight.h ${HFILES}
+	g++ ${CFLAGS} extractTop.cpp
+
+extractBottom.o: extractBottom.cpp extractBottom.h ${HFILES}
+	g++ ${CFLAGS} extractBottom.cpp
+
+extractFront.o: extractFront.cpp extractFront.h ${HFILES} 
+	g++ ${CFLAGS} extractFront.cpp
+
+extractBack.o: extractBack.cpp extractBack.h ${HFILES}
+	g++ ${CFLAGS} extractBack.cpp
 
 clean:
-	rm -r cubeMain.o cube.o cubeface.o main
+	rm -r ${ALLFILES} main
