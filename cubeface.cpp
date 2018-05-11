@@ -66,22 +66,22 @@ void CubeFace::printCubeFace() {
 			Color clr = face[i][j];
 			switch (clr) {
 				case 0:
-					cout << "W";
+					cout << "\033[1mW\033[0m";
 					break;
 				case 1:
-					cout << "R";
+					cout << "\033[1;31mR\033[0m";
 					break;
 				case 2:
-					cout << "G";
+					cout << "\033[1;38;5;10mG\033[0m";
 					break;
 				case 3:
-					cout << "O";
+					cout << "\033[1;38;5;202mO\033[0m";
 					break;
 				case 4:
-					cout << "B";
+					cout << "\033[1;38;5;12mB\033[0m";
 					break;
 				case 5:
-					cout << "Y";
+					cout << "\033[1;38;5;11mY\033[0m";
 					break;
 				default:
 					cout << "?";
