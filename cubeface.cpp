@@ -201,18 +201,18 @@ void CubeFace::setBottom(vector<Color> colors) {
 }
 
 void CubeFace::swapSidesClockWise(const Extract &e) {
-	vector<Color> temp = e.extractLeftFace(leftFace);
-	e.setLeftFace(leftFace, e.extractBottomFace(bottomFace));	
-	e.setBottomFace(bottomFace, e.extractRightFace(rightFace));
-	e.setRightFace(rightFace, e.extractTopFace(topFace));
+	vector<Color> temp = e.extractLeftFace(leftFace, true);
+	e.setLeftFace(leftFace, e.extractBottomFace(bottomFace, true));	
+	e.setBottomFace(bottomFace, e.extractRightFace(rightFace, true));
+	e.setRightFace(rightFace, e.extractTopFace(topFace, true));
 	e.setTopFace(topFace, temp);
 }
 
 void CubeFace::swapSidesCounterClockWise(const Extract &e) {
-	vector<Color> temp = e.extractLeftFace(leftFace);
-	e.setLeftFace(leftFace, e.extractTopFace(topFace));
-	e.setTopFace(topFace, e.extractRightFace(rightFace));
-	e.setRightFace(rightFace, e.extractBottomFace(bottomFace));
+	vector<Color> temp = e.extractLeftFace(leftFace, false);
+	e.setLeftFace(leftFace, e.extractTopFace(topFace, false));
+	e.setTopFace(topFace, e.extractRightFace(rightFace, false));
+	e.setRightFace(rightFace, e.extractBottomFace(bottomFace, false));
 	e.setBottomFace(bottomFace, temp);
 }
 

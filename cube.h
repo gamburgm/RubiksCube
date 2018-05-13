@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <cstdlib>
 #include "color.h"
 #include "cubeface.h"
 #include "extract.h"
@@ -32,10 +33,10 @@ class Cube {
 		void rotateFaceClockWise(string faceName);
 		void rotateFaceCounterClockWise(string faceName);
 		bool wonGame();
-		void readCommands();
+		void playGame();
 		void printLegend();
 		void printAllFaces();
-		//void randomizeBoard();
+		void randomizeCube();
 };
 
 #endif
