@@ -137,3 +137,72 @@ void Cube::rotateFaceCounterClockWise(string faceName) {
 		
 	}
 }	
+
+bool Cube::wonGame() {
+	if (bottomFace->completedFace() && 
+		frontFace->completedFace()  &&
+		rightFace->completedFace()  &&
+		backFace->completedFace()   &&
+		leftFace->completedFace()   &&
+		topFace->completedFace()) {
+
+		return true;
+	}
+
+	return false;
+}
+
+void Cube::readCommands() {
+	string word;
+
+	cout << "Welcome to Rubik's Cube!" << endl;
+	while (true) {
+		printLegend();
+
+		cout << "\nYour Command: ";
+
+		cin >> word;	
+		
+		if (word.compare("print") != 0) {
+			rotateFaceClockWise(word);
+		}
+		else {
+			printAllFaces();
+		}
+	
+		if (wonGame()) {
+			break;
+		}
+	}
+	cout << "You won!" << endl;
+}
+
+void Cube::printLegend() {
+	cout << "Commands:" << endl;
+	cout << "F to rotate Front Face" << endl;
+	cout << "U to rotate Upper Face" << endl;
+	cout << "R to rotate Right Face" << endl;
+	cout << "L to rotate Left Face" << endl;
+	cout << "D to rotate Down Face" << endl;
+	cout << "B to rotate Back Face" << endl;
+	cout << "P to print all Faces" << endl;
+}
+
+void Cube::printAllFaces() {
+	printFace("F");
+	printFace("U");
+	printFace("R");
+	printFace("L");
+	printFace("D");
+	printFace("B");
+}
+
+
+
+
+
+
+
+
+
+

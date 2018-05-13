@@ -31,6 +31,10 @@ class Cube {
 		int chooseColor(string faceName);
 		void rotateFaceClockWise(string faceName);
 		void rotateFaceCounterClockWise(string faceName);
+		bool wonGame();
+		void readCommands();
+		void printLegend();
+		void printAllFaces();
 		//void randomizeBoard();
 };
 
