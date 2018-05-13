@@ -20,7 +20,7 @@ CubeFace::CubeFace(Color clr) {
 bool CubeFace::completedFace() {
 	for ( vector<Color> col : face ) {
 		for ( Color clr : col ) {
-			if (clr == faceColor) {
+			if (clr != faceColor) {
 				return false;
 			}
 		}
