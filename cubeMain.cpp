@@ -6,7 +6,7 @@
 int main() {
 	Cube c;
 
-	c.readCommands();
+	c.playGame();
 
 	return 0;
 }

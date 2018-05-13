@@ -1,19 +1,19 @@
 #include "extractTop.h"
 #include "cubeface.h"
 
-vector<Color> ExtractTop::extractLeftFace(CubeFace* cubeface) const {
+vector<Color> ExtractTop::extractLeftFace(CubeFace* cubeface, bool clockwise) const {
 	return cubeface->getTop();
 }
 
-vector<Color> ExtractTop::extractRightFace(CubeFace* cubeface) const {
+vector<Color> ExtractTop::extractRightFace(CubeFace* cubeface, bool clockwise) const {
 	return cubeface->getTop();
 }
 
-vector<Color> ExtractTop::extractTopFace(CubeFace* cubeface) const {
+vector<Color> ExtractTop::extractTopFace(CubeFace* cubeface, bool clockwise) const {
 	return cubeface->getTop();
 }
 
-vector<Color> ExtractTop::extractBottomFace(CubeFace* cubeface) const {
+vector<Color> ExtractTop::extractBottomFace(CubeFace* cubeface, bool clockwise) const {
 	return cubeface->getTop();
 }
 

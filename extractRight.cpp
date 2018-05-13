@@ -1,20 +1,28 @@
 #include "extractRight.h"
 #include "cubeface.h"
 
-vector<Color> ExtractRight::extractLeftFace(CubeFace* cubeface) const {
+vector<Color> ExtractRight::extractLeftFace(CubeFace* cubeface, bool clockwise) const {
 	return cubeface->getRight();
 }
 
-vector<Color> ExtractRight::extractRightFace(CubeFace* cubeface) const {
-	return cubeface->getLeft();
+vector<Color> ExtractRight::extractRightFace(CubeFace* cubeface, bool clockwise) const {
+	vector<Color> colors = cubeface->getLeft();
+	reverse(colors.begin(), colors.end());
+	return colors;
 }
 
-vector<Color> ExtractRight::extractTopFace(CubeFace* cubeface) const {
-	return cubeface->getRight();
+vector<Color> ExtractRight::extractTopFace(CubeFace* cubeface, bool clockwise) const {
+	vector<Color> colors = cubeface->getRight();
+	if (clockwise)
+		reverse(colors.begin(), colors.end());
+	return colors;
 }
 
-vector<Color> ExtractRight::extractBottomFace(CubeFace* cubeface) const {
-	return cubeface->getRight();
+vector<Color> ExtractRight::extractBottomFace(CubeFace* cubeface, bool clockwise) const {
+	vector<Color> colors = cubeface->getRight();
+	if (!clockwise)
+		reverse(colors.begin(), colors.end());
+	return colors;
 }
 
 void ExtractRight::setLeftFace(CubeFace* cubeface, vector<Color> colors) const {

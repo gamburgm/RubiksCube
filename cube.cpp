@@ -152,18 +152,20 @@ bool Cube::wonGame() {
 	return false;
 }
 
-void Cube::readCommands() {
+void Cube::playGame() {
 	string word;
 
 	cout << "Welcome to Rubik's Cube!" << endl;
+	randomizeCube();
+	printAllFaces();
+	cout << endl;
+
 	while (true) {
 		printLegend();
 
-		cout << "\nYour Command: ";
-
 		cin >> word;	
 		
-		if (word.compare("print") != 0) {
+		if (word.compare("p") != 0 && word.compare("P")  != 0) {
 			rotateFaceClockWise(word);
 		}
 		else {
@@ -186,6 +188,8 @@ void Cube::printLegend() {
 	cout << "D to rotate Down Face" << endl;
 	cout << "B to rotate Back Face" << endl;
 	cout << "P to print all Faces" << endl;
+	cout << "\nYour Command: ";	
+	
 }
 
 void Cube::printAllFaces() {
@@ -197,7 +201,42 @@ void Cube::printAllFaces() {
 	printFace("B");
 }
 
+void Cube::randomizeCube() {
+	for (int i = 0; i < 12; i++) {
+		int rotations = rand() % 3 + 1;
+		string cf;
 
+		int whichFace = i % 6;
+
+		switch (whichFace) {
+			case 0:
+				cf = "D";
+				break;
+			case 1:
+				cf = "F";
+				break;
+			case 2:
+				cf = "R";
+				break;
+			case 3:
+				cf = "B";
+				break;
+			case 4:
+				cf = "L";
+				break;
+			case 5:
+				cf = "U";
+				break;
+			default:
+				cf = "D";
+				break;
+		}
+
+		for (int j = 0; j < rotations; j++) {
+			rotateFaceClockWise(cf);
+		}
+	}
+}
 
 
 
