@@ -2,8 +2,9 @@
 #define CUBE_H
 
 #include <iostream>
-#include <string>
+#include <cstring>
 #include <cstdlib>
+#include <iterator>
 #include "color.h"
 #include "cubeface.h"
 #include "extract.h"
@@ -19,6 +20,7 @@ using namespace std;
 
 class Cube {
 	private:
+		//the six faces of the cube
 		CubeFace* bottomFace;
 		CubeFace* frontFace;
 		CubeFace* rightFace;
@@ -28,15 +30,15 @@ class Cube {
 	public:
 		Cube();
 		~Cube();
-		void printFace(string faceName);
-		int chooseColor(string faceName);
-		void rotateFaceClockWise(string faceName);
-		void rotateFaceCounterClockWise(string faceName);
-		bool wonGame();
-		void playGame();
-		void printLegend();
-		void printAllFaces();
-		void randomizeCube();
+		void printFace(string faceName);       //print a CubeFace given its name
+		int chooseFace(string faceName);      //determine a face given its name
+		void readCommand(string command);      //execute a print or rotation given instructions
+		void rotateFace(string faceName, bool clockwise); //rotate a face given the face's name and rotation direction
+		bool wonGame();        //check if the game is won
+		void playGame();       //play Rubik's Cube
+		void printLegend();    //print the instructions that the user can use
+		void printAllFaces();  //print all cubefaces of this cube
+		void randomizeCube();  //randomly rotate the cube
 };
 
 #endif

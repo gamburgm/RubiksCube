@@ -30,19 +30,19 @@ Cube::~Cube() {
 	delete topFace;
 }	
 
-//given a string, return the respective number of the Color enumeration
-int Cube::chooseColor(string faceName) {
-	if (faceName.compare("bottom") == 0 || faceName.compare("D") == 0)
+//return the corresponding number asociated with a face
+int Cube::chooseFace(string faceName) {
+	if (faceName.compare("D") == 0)
 		return 0;	
-	else if (faceName.compare("front") == 0 || faceName.compare("F") == 0)
+	else if (faceName.compare("F") == 0)
 		return 1;
-	else if (faceName.compare("right") == 0 || faceName.compare("R") == 0)
+	else if (faceName.compare("R") == 0)
 		return 2;
-	else if (faceName.compare("back") == 0 || faceName.compare("B") == 0)
+	else if (faceName.compare("B") == 0)
 		return 3;
-	else if (faceName.compare("left") == 0 || faceName.compare("L") == 0)
+	else if (faceName.compare("L") == 0)
 		return 4;
-	else if (faceName.compare("top") == 0 || faceName.compare("U") == 0)
+	else if (faceName.compare("U") == 0)
 		return 5;
 	else
 		return -1;
@@ -50,7 +50,7 @@ int Cube::chooseColor(string faceName) {
 
 //print the CubeFace given the name of the face
 void Cube::printFace(string faceName) {
-	int num = chooseColor(faceName);
+	int num = chooseFace(faceName);
 
 	switch (num) {
 		case 0:
@@ -77,74 +77,72 @@ void Cube::printFace(string faceName) {
 	}
 }
 
-//rotate a CubeFace clockwise, given the name of the CubeFace 
-void Cube::rotateFaceClockWise(string faceName) {
-	int num = chooseColor(faceName);
+//execute a command given instructions: either a rotate, re-orient or print command
+void Cube::readCommand(string command) {
+	bool clockwise = true;
+	bool faceAlreadyChosen = false;
+	string faceName;
+
+	for (string::iterator iter = command.begin(); iter != command.end(); iter++) {
+		if (*iter == ' ')
+			continue;
+		
+		if (*iter == 'P' || *iter == 'p')
+			printAllFaces();
+		else if (isalpha(*iter) && !faceAlreadyChosen) {
+			faceName.push_back(*iter);
+			faceAlreadyChosen = true;
+		}
+
+		if (*iter == '\'' && faceAlreadyChosen) {
+			clockwise = false;
+			break;
+		}
+	}	
+
+	if (faceAlreadyChosen) {
+		rotateFace(faceName, clockwise); 
+	}
+}
+
+//rotate a face given the face's name and a direction
+void Cube::rotateFace(string faceName, bool clockwise) {
+	int num = chooseFace(faceName);
 
 	switch (num) {
 		case 0:
-			bottomFace->rotateClockWise(ExtractBottom());	
+			bottomFace->rotate(ExtractBottom(), clockwise);
 			break;
 		case 1:
-			frontFace->rotateClockWise(ExtractFront());
+			frontFace->rotate(ExtractFront(), clockwise);
 			break;
 		case 2:
-			rightFace->rotateClockWise(ExtractRight());
+			rightFace->rotate(ExtractRight(), clockwise);
 			break;
 		case 3:
-			backFace->rotateClockWise(ExtractBack());
+			backFace->rotate(ExtractBack(), clockwise);
 			break;
 		case 4:
-			leftFace->rotateClockWise(ExtractLeft());
+			leftFace->rotate(ExtractLeft(), clockwise);
 			break;
 		case 5:
-			topFace->rotateClockWise(ExtractTop());
+			topFace->rotate(ExtractTop(), clockwise);
 			break;
 		default:
-			cout << "Error: invalid CubeFace" << endl;
+			cout << "Invalid Face" << endl;
 			break;
 		
 	}
 }	
 
-
-//rotate a CubeFace counterclockwise, given the name of the CubeFace
-void Cube::rotateFaceCounterClockWise(string faceName) {
-	int num = chooseColor(faceName);
-
-	switch (num) {
-		case 0:
-			bottomFace->rotateCounterClockWise(ExtractBottom());	
-			break;
-		case 1:
-			frontFace->rotateCounterClockWise(ExtractFront());
-			break;
-		case 2:
-			rightFace->rotateCounterClockWise(ExtractRight());
-			break;
-		case 3:
-			backFace->rotateCounterClockWise(ExtractBack());
-			break;
-		case 4:
-			leftFace->rotateCounterClockWise(ExtractLeft());
-			break;
-		case 5:
-			topFace->rotateCounterClockWise(ExtractTop());
-			break;
-		default:
-			cout << "Error: invalid CubeFace" << endl;
-			break;
-		
-	}
-}	
-
+//check if the game has been won by checking if each face has been completed
 bool Cube::wonGame() {
 	if (bottomFace->completedFace() && 
 		frontFace->completedFace()  &&
 		rightFace->completedFace()  &&
 		backFace->completedFace()   &&
 		leftFace->completedFace()   &&
-		topFace->completedFace()) {
+		topFace->completedFace()     ) {
 
 		return true;
 	}
@@ -152,8 +150,9 @@ bool Cube::wonGame() {
 	return false;
 }
 
+//interact with this cube and take user input as instructions to execute
 void Cube::playGame() {
-	string word;
+	string instructions;
 
 	cout << "Welcome to Rubik's Cube!" << endl;
 	randomizeCube();
@@ -163,14 +162,9 @@ void Cube::playGame() {
 	while (true) {
 		printLegend();
 
-		cin >> word;	
+		cin >> instructions;	
 		
-		if (word.compare("p") != 0 && word.compare("P")  != 0) {
-			rotateFaceClockWise(word);
-		}
-		else {
-			printAllFaces();
-		}
+		readCommand(instructions);	
 	
 		if (wonGame()) {
 			break;
@@ -179,6 +173,7 @@ void Cube::playGame() {
 	cout << "You won!" << endl;
 }
 
+//print possible user instructions for user to see
 void Cube::printLegend() {
 	cout << "Commands:" << endl;
 	cout << "F to rotate Front Face" << endl;
@@ -192,6 +187,7 @@ void Cube::printLegend() {
 	
 }
 
+//print all faces of this cube
 void Cube::printAllFaces() {
 	printFace("F");
 	printFace("U");
@@ -201,7 +197,10 @@ void Cube::printAllFaces() {
 	printFace("B");
 }
 
+//randomize the cube by using random rotations
 void Cube::randomizeCube() {
+	srand(time(NULL));
+
 	for (int i = 0; i < 12; i++) {
 		int rotations = rand() % 3 + 1;
 		string cf;
@@ -233,7 +232,7 @@ void Cube::randomizeCube() {
 		}
 
 		for (int j = 0; j < rotations; j++) {
-			rotateFaceClockWise(cf);
+			readCommand(cf);
 		}
 	}
 }
