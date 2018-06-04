@@ -242,11 +242,38 @@ void CubeFace::rotate(const Extract &e, bool clockwise) {
 		rotateCounterClockWise(e);
 }
 
+void CubeFace::orientClockWise() {
+	turnClockWise();
+	
+	CubeFace* temp = leftFace;
+	leftFace = bottomFace;
+	bottomFace = rightFace;
+	rightFace = topFace;
+	topFace = temp;
+}
 
+void CubeFace::orientCounterClockWise() {
+	turnCounterClockWise();
 
+	CubeFace* temp = leftFace;
+	leftFace = topFace;
+	topFace = rightFace;
+	rightFace = bottomFace;
+	bottomFace = temp;
+}
 
+void CubeFace::totalReOrientation() {
+	turnClockWise();
+	turnClockWise();
 
+	CubeFace* tempOne = topFace;
+	topFace = bottomFace;
+	bottomFace = tempOne;
 
+	CubeFace* tempTwo = leftFace;
+	leftFace = rightFace;
+	rightFace = tempTwo;
+}
 
 
 

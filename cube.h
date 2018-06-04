@@ -32,13 +32,21 @@ class Cube {
 		~Cube();
 		void printFace(string faceName);       //print a CubeFace given its name
 		int chooseFace(string faceName);      //determine a face given its name
-		void readCommand(string command);      //execute a print or rotation given instructions
+		void readCommand(string input);      //execute a print or rotation given instructions
+		void handleCommand(string command, bool cw); 
+		void rotateCube(string command, bool cw);
 		void rotateFace(string faceName, bool clockwise); //rotate a face given the face's name and rotation direction
 		bool wonGame();        //check if the game is won
 		void playGame();       //play Rubik's Cube
 		void printLegend();    //print the instructions that the user can use
 		void printAllFaces();  //print all cubefaces of this cube
 		void randomizeCube();  //randomly rotate the cube
+		void rotateYClockWise(); //change orientation y cw
+		void rotateYCounterClockWise(); //change orientation y ccw
+		void rotateXClockWise();
+		void rotateXCounterClockWise();
+		void rotateZClockWise();
+		void rotateZCounterClockWise();
 };
 
 #endif

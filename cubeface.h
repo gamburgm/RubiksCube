@@ -56,6 +56,9 @@ class CubeFace {
 		void setTop(vector<Color> colors);     //set the topmost row to the given vector
 		void setBottom(vector<Color> colors);  //set the bottomost row to the given vector
 		void rotate(const Extract &e, bool clockwise);  //rotate this face given an Extract and a direction
+		void orientClockWise();   //re-orient the face so it points clockwise from its original orientation
+		void orientCounterClockWise(); //re-orient the face so it points counter-clockwise from its original orientation
+		void totalReOrientation();
 };
 
 #endif

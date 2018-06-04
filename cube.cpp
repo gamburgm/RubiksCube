@@ -32,17 +32,17 @@ Cube::~Cube() {
 
 //return the corresponding number asociated with a face
 int Cube::chooseFace(string faceName) {
-	if (faceName.compare("D") == 0)
+	if (faceName.compare("D") == 0 || faceName.compare("d") == 0)
 		return 0;	
-	else if (faceName.compare("F") == 0)
+	else if (faceName.compare("F") == 0 || faceName.compare("f") == 0)
 		return 1;
-	else if (faceName.compare("R") == 0)
+	else if (faceName.compare("R") == 0 || faceName.compare("r") == 0)
 		return 2;
-	else if (faceName.compare("B") == 0)
+	else if (faceName.compare("B") == 0 || faceName.compare("b") == 0)
 		return 3;
-	else if (faceName.compare("L") == 0)
+	else if (faceName.compare("L") == 0 || faceName.compare("l") == 0)
 		return 4;
-	else if (faceName.compare("U") == 0)
+	else if (faceName.compare("U") == 0 || faceName.compare("u") == 0)
 		return 5;
 	else
 		return -1;
@@ -78,30 +78,72 @@ void Cube::printFace(string faceName) {
 }
 
 //execute a command given instructions: either a rotate, re-orient or print command
-void Cube::readCommand(string command) {
-	bool clockwise = true;
-	bool faceAlreadyChosen = false;
-	string faceName;
+void Cube::readCommand(string input) {
 
-	for (string::iterator iter = command.begin(); iter != command.end(); iter++) {
-		if (*iter == ' ')
-			continue;
-		
-		if (*iter == 'P' || *iter == 'p')
+	for (string::iterator iter = input.begin(); iter != input.end(); iter++) {
+		bool clockwise = true;
+		string command = "";
+
+		char letter = tolower(*iter);	
+
+		if (letter == 'p') {
 			printAllFaces();
-		else if (isalpha(*iter) && !faceAlreadyChosen) {
-			faceName.push_back(*iter);
-			faceAlreadyChosen = true;
 		}
 
-		if (*iter == '\'' && faceAlreadyChosen) {
+		if (letter == 'f' ||
+			letter == 'u' ||
+			letter == 'r' ||
+			letter == 'l' ||
+			letter == 'd' ||
+			letter == 'b' ||
+			letter == 'x' ||
+			letter == 'y' ||
+			letter == 'z') {
+			
+			command.push_back(letter);
+		}
+
+		if (*(iter + 1) == '\'') {
 			clockwise = false;
-			break;
 		}
-	}	
 
-	if (faceAlreadyChosen) {
-		rotateFace(faceName, clockwise); 
+		if (!command.empty()) {
+			handleCommand(command, clockwise);
+		}
+
+	}
+}
+
+void Cube::handleCommand(string command, bool clockwise) {
+	if (chooseFace(command) == -1) {
+		rotateCube(command, clockwise);
+	}
+	else {
+		rotateFace(command, clockwise);
+	}
+}
+
+void Cube::rotateCube(string command, bool clockwise) {
+	if (command.compare("X") == 0 || command.compare("x") == 0) {
+		if (clockwise) {
+			rotateXClockWise();
+		} else {
+			rotateXCounterClockWise();
+		}
+	}
+	else if (command.compare("Y") == 0 || command.compare("y") == 0) {
+		if (clockwise) {
+			rotateYClockWise();
+		} else {
+			rotateYCounterClockWise();
+		}
+	}
+	else if (command.compare("Z") == 0 || command.compare("z") == 0) {
+		if (clockwise) {
+			rotateZClockWise();
+		} else {
+			rotateZCounterClockWise();
+		}
 	}
 }
 
@@ -175,6 +217,7 @@ void Cube::playGame() {
 
 //print possible user instructions for user to see
 void Cube::printLegend() {
+	cout << "* * * * * * * * * * * * * * * *" << endl;
 	cout << "Commands:" << endl;
 	cout << "F to rotate Front Face" << endl;
 	cout << "U to rotate Upper Face" << endl;
@@ -237,6 +280,91 @@ void Cube::randomizeCube() {
 	}
 }
 
+//change the orientation of the cube on the Y Axis clockwise
+void Cube::rotateYClockWise() {
+	CubeFace* temp = leftFace;
+
+	leftFace = frontFace;
+	frontFace = rightFace;
+	rightFace = backFace;
+	backFace = temp;
+
+	topFace->orientClockWise();
+	bottomFace->orientCounterClockWise();	
+}
+
+//change the orientation of the cube on the Y Axis counter-clockwise
+void Cube::rotateYCounterClockWise() {
+	CubeFace* temp = leftFace;
+	
+	leftFace = backFace;
+	backFace = rightFace;
+	rightFace = frontFace;
+	frontFace = temp;
+
+	topFace->orientCounterClockWise();
+	bottomFace->orientClockWise();
+}
+
+void Cube::rotateXClockWise() {
+	CubeFace* temp = frontFace;
+	
+	frontFace = bottomFace;
+	bottomFace = backFace;
+	backFace = topFace;
+	topFace = temp;
+
+	rightFace->orientClockWise();
+	leftFace->orientCounterClockWise();
+	backFace->totalReOrientation();
+	bottomFace->totalReOrientation();
+}
+
+void Cube::rotateXCounterClockWise() {
+	CubeFace* temp = frontFace;
+	
+	frontFace = topFace;
+	topFace = backFace;
+	backFace = bottomFace;
+	bottomFace = temp;
+
+	rightFace->orientCounterClockWise();
+	leftFace->orientClockWise();
+	backFace->totalReOrientation();
+	topFace->totalReOrientation();
+}
+
+void Cube::rotateZClockWise() {
+	CubeFace* temp = topFace;
+
+	topFace = leftFace;
+	leftFace = bottomFace;
+	bottomFace = rightFace;
+	rightFace = temp;
+
+	frontFace->orientClockWise();
+	topFace->orientClockWise();
+	rightFace->orientClockWise();
+	leftFace->orientClockWise();
+	bottomFace->orientClockWise();
+	backFace->orientCounterClockWise();	
+}
+
+void Cube::rotateZCounterClockWise() {
+	CubeFace* temp = topFace;
+
+	topFace = rightFace;
+	rightFace = bottomFace;
+	bottomFace = leftFace;
+	leftFace = temp;
+
+	frontFace->orientCounterClockWise();
+	topFace->orientCounterClockWise();
+	rightFace->orientCounterClockWise();
+	leftFace->orientCounterClockWise();
+	bottomFace->orientCounterClockWise();
+	backFace->orientClockWise();	
+}
 
 
 
