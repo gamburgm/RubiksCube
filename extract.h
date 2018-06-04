@@ -7,6 +7,7 @@ class CubeFace;
 
 using namespace std;
 
+//Determines which colors to return or set based on the face and direction of a rotation
 class Extract {
 	public:
 		virtual vector<Color> extractLeftFace(CubeFace* cubeface, bool clockwise) const = 0;
