@@ -1,6 +1,6 @@
-ALLFILES = cubeMain.o cube.o cubeface.o extractLeft.o extractRight.o extractTop.o extractBottom.o extractFront.o extractBack.o
+ALLFILES = cubeMain.o cube.o cubeface.o extractLeft.o extractRight.o extractTop.o extractBottom.o extractFront.o extractBack.o fileHandler.o
 CFLAGS = -g -Wall -c
-HFILES = cubeface.h color.h extract.h extractLeft.h extractRight.h extractBack.h extractFront.h extractTop.h extractBottom.h
+HFILES = cubeface.h color.h extract.h extractLeft.h extractRight.h extractBack.h extractFront.h extractTop.h extractBottom.h fileHandler.h
 
 
 
@@ -33,6 +33,9 @@ extractFront.o: extractFront.cpp extractFront.h ${HFILES}
 
 extractBack.o: extractBack.cpp extractBack.h ${HFILES}
 	g++ ${CFLAGS} extractBack.cpp
+
+fileHandler.o: fileHandler.cpp fileHandler.h 
+	g++ ${CFLAGS} fileHandler.cpp
 
 clean:
 	rm -r ${ALLFILES} main
