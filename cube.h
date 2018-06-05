@@ -47,6 +47,7 @@ class Cube {
 		void rotateXCounterClockWise();
 		void rotateZClockWise();
 		void rotateZCounterClockWise();
+		
 };
 
 #endif

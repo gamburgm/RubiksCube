@@ -197,7 +197,7 @@ void Cube::playGame() {
 	string instructions;
 
 	cout << "Welcome to Rubik's Cube!" << endl;
-	randomizeCube();
+	//randomizeCube();
 	printAllFaces();
 	cout << endl;
 
