@@ -3,8 +3,35 @@
 #include "color.h"
 #include "extract.h"
 
+class FileHandler;
+
 //initialize the CubeFaces and assign each of them their respective neighbors
 Cube::Cube() {
+	generateCube();
+	commands = new FileHandler();
+	preLoaded = false;
+}
+
+Cube::Cube(string fileName) {
+	generateCube();
+	commands = new FileHandler(fileName);
+	commands->readCommands(this);
+	preLoaded = true;
+}
+
+//delete the memory of the cubefaces
+Cube::~Cube() {
+	delete bottomFace;
+	delete frontFace;
+	delete rightFace;
+	delete backFace;
+	delete leftFace; 
+	delete topFace;
+	delete commands;
+}	
+
+
+void Cube::generateCube() {
 	bottomFace = new CubeFace(white);
 	frontFace  = new CubeFace(red);
 	rightFace  = new CubeFace(green);
@@ -19,16 +46,6 @@ Cube::Cube() {
 	leftFace->addNeighbors(bottomFace, topFace, frontFace, backFace);
 	topFace->addNeighbors(frontFace, backFace, rightFace, leftFace);
 }
-
-//delete the memory of the cubefaces
-Cube::~Cube() {
-	delete bottomFace;
-	delete frontFace;
-	delete rightFace;
-	delete backFace;
-	delete leftFace; 
-	delete topFace;
-}	
 
 //return the corresponding number asociated with a face
 int Cube::chooseFace(string faceName) {
@@ -121,6 +138,12 @@ void Cube::handleCommand(string command, bool clockwise) {
 	else {
 		rotateFace(command, clockwise);
 	}
+
+	if (!clockwise) {
+		command.push_back('\'');
+	}
+
+	commands->writeCommand(command);
 }
 
 void Cube::rotateCube(string command, bool clockwise) {
@@ -197,7 +220,9 @@ void Cube::playGame() {
 	string instructions;
 
 	cout << "Welcome to Rubik's Cube!" << endl;
-	//randomizeCube();
+	if (!preLoaded) {
+		randomizeCube();
+	}
 	printAllFaces();
 	cout << endl;
 
@@ -242,6 +267,7 @@ void Cube::printAllFaces() {
 
 //randomize the cube by using random rotations
 void Cube::randomizeCube() {
+
 	srand(time(NULL));
 
 	for (int i = 0; i < 12; i++) {
@@ -278,6 +304,8 @@ void Cube::randomizeCube() {
 			readCommand(cf);
 		}
 	}
+
+	commands->writeCommand("* * * * * * * * * *");
 }
 
 //change the orientation of the cube on the Y Axis clockwise

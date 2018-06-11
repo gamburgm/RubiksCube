@@ -5,15 +5,17 @@
 #include "fileHandler.h"
 
 
-int main() {
+int main(int argc, char* argv[]) {
+	
+	if (argc > 1) {
+		Cube c(argv[1]);
+		c.playGame();
+	}
+	else {
+		Cube c;
+		c.playGame();
+	}		
 
-	cout << "Before playing, let's check if FileHandler works." << endl;
-
-	FileHandler h;
-
-	Cube c;
-
-	c.playGame();
 
 	return 0;
 }

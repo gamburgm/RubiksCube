@@ -6,8 +6,6 @@ FileHandler::FileHandler() {
 	int fileNum = 0;
 
 	while (true) {
-		cout << "curr num is " << fileNum << "!!!!" << endl;
-
 		string fileName = "Cube" + to_string(fileNum) + ".txt";
 
 		ifstream test(fileName);
@@ -21,8 +19,24 @@ FileHandler::FileHandler() {
 
 		fileNum++;
 	}
+}
 
+FileHandler::FileHandler(string fileName) {
+	currFile.open(fileName, ios::out | ios::in | ios::app); // maybe abstract file opening?
+}
 
-	currFile << "HI" << endl;
+void FileHandler::writeCommand(string command) {
+	currFile << command << endl;
+}
+
+void FileHandler::readCommands(Cube* c) {
+	string line;
+
+	currFile.clear();
+	currFile.seekg(0, ios::beg);
+
+	while ( getline(currFile, line) ) {
+		c->readCommand(line);
+	}	
 }
 
