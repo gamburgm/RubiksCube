@@ -14,8 +14,11 @@
 #include "extractBack.h"
 #include "extractTop.h"
 #include "extractBottom.h"
+#include "fileHandler.h"
 
 using namespace std;
+
+class FileHandler;
 
 
 class Cube {
@@ -27,8 +30,12 @@ class Cube {
 		CubeFace* backFace;
 		CubeFace* leftFace;
 		CubeFace* topFace;
+		FileHandler* commands;
+		bool preLoaded;
 	public:
 		Cube();
+		Cube(string fileName);
+		void generateCube();
 		~Cube();
 		void printFace(string faceName);       //print a CubeFace given its name
 		int chooseFace(string faceName);      //determine a face given its name
