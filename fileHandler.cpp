@@ -36,7 +36,7 @@ void FileHandler::readCommands(Cube* c) {
 	currFile.seekg(0, ios::beg);
 
 	while (getline(currFile, line)) {
-		c->readCommand(line);
+		c->handleCommand(line);
 	}	
 }
 

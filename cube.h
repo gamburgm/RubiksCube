@@ -40,7 +40,7 @@ class Cube {
 		void printFace(string faceName);       //print a CubeFace given its name
 		int chooseFace(string faceName);      //determine a face given its name
 		void readCommand(string input);      //execute a print or rotation given instructions
-		void handleCommand(string command, bool cw); 
+		void handleCommand(string command); 
 		void rotateCube(string command, bool cw);
 		void rotateFace(string faceName, bool clockwise); //rotate a face given the face's name and rotation direction
 		bool wonGame();        //check if the game is won
@@ -53,8 +53,7 @@ class Cube {
 		void rotateXClockWise();
 		void rotateXCounterClockWise();
 		void rotateZClockWise();
-		void rotateZCounterClockWise();
-		
+		void rotateZCounterClockWise();		
 };
 
 #endif

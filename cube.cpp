@@ -98,7 +98,6 @@ void Cube::printFace(string faceName) {
 void Cube::readCommand(string input) {
 
 	for (string::iterator iter = input.begin(); iter != input.end(); iter++) {
-		bool clockwise = true;
 		string command = "";
 
 		char letter = tolower(*iter);	
@@ -121,29 +120,29 @@ void Cube::readCommand(string input) {
 		}
 
 		if (*(iter + 1) == '\'') {
-			clockwise = false;
+			command.push_back('\'');
 		}
 
 		if (!command.empty()) {
-			handleCommand(command, clockwise);
+			handleCommand(command);
+			commands->writeCommand(command);	
 		}
-
 	}
 }
 
-void Cube::handleCommand(string command, bool clockwise) {
+void Cube::handleCommand(string command) {
+	bool clockwise = true;
+
+	if (command.length() > 1 && command[1] == '\'') {
+		clockwise = false;
+	}
+
 	if (chooseFace(command) == -1) {
 		rotateCube(command, clockwise);
 	}
 	else {
 		rotateFace(command, clockwise);
 	}
-
-	if (!clockwise) {
-		command.push_back('\'');
-	}
-
-	commands->writeCommand(command);
 }
 
 void Cube::rotateCube(string command, bool clockwise) {
