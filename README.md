@@ -12,7 +12,9 @@ make
 And that's it!
 
 ## Usage
-The game starts with a randomized cube and instructions to rotate each face. 
+The game starts with a randomized cube and instructions to rotate each face. Keep rotating till you've finished!
 
 ![Start of Game](images/start.png)
 ![End of Game](images/finish.png)
+
+Each game you play is saved in a `CubeX.txt` file with your moves by default.
