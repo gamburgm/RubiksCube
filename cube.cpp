@@ -249,6 +249,7 @@ void Cube::printLegend() {
 	cout << "L to rotate Left Face" << endl;
 	cout << "D to rotate Down Face" << endl;
 	cout << "B to rotate Back Face" << endl;
+    cout << "Add ' to command for reverse" << endl;
 	cout << "P to print all Faces" << endl;
 	cout << "\nYour Command: ";	
 	

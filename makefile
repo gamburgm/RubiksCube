@@ -38,4 +38,4 @@ fileHandler.o: fileHandler.cpp fileHandler.h
 	g++ ${CFLAGS} fileHandler.cpp
 
 clean:
-	rm -r ${ALLFILES} main
+	rm -r ${ALLFILES} main *.txt
